@@ -13,3 +13,7 @@ code {
 .Mui-checked {
   color: #542020 !important;
 }
+
+.MuiFormHelperText-root {
+  font-family: 'Poppins', sans-serif !important;
+}
