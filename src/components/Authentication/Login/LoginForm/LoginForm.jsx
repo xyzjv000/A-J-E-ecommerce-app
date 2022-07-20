@@ -1,52 +1,47 @@
 import { TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
 import React, { useState } from 'react';
+import useInput from '../../../../hooks/useInput';
 import classes from './LoginForm.module.css';
-function LoginForm(props) {
-  const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
-    remember: false,
-    isEmailTouched: false,
-    isPasswordTouched: false,
-  });
 
-  const isValidEmail =
-    credentials.email.trim() !== '' &&
-    credentials.email.trim().includes('@') &&
-    credentials.email.trim().includes('.');
-  const isValidPassword = credentials.password.trim().length >= 6;
+function LoginForm(props) {
+  const [remember, setRemember] = useState(false);
+  const {
+    value: emailValue,
+    hasError: emailHasError,
+    isValid: emailIsValid,
+    touched: emailIsTouched,
+    onInputChangeHandler: onInputChangeEmail,
+    onInputBlurHandler: onInputBlurEmail,
+  } = useInput((value) => value.trim() !== '' && value.trim().includes('@'));
+
+  const {
+    value: passwordValue,
+    hasError: passwordHasError,
+    isValid: passwordIsValid,
+    touched: passwordIsTouched,
+    onInputChangeHandler: onInputChangePassword,
+    onInputBlurHandler: onInputBlurPassword,
+  } = useInput((value) => value.trim().length >= 6);
+
   const formHandler = (event) => {
     event.preventDefault();
-    setCredentials((prev) => {
-      return { ...prev, isEmailTouched: true, isPasswordTouched: true };
-    });
-    if (!isValidEmail || !isValidPassword) {
+    onInputBlurEmail();
+    onInputBlurPassword();
+    if (passwordHasError || emailHasError) {
       return;
     }
+    let credentials = {
+      email: emailValue,
+      password: passwordValue,
+      remember: remember,
+    };
 
     props.setForm(credentials);
   };
 
-  const onInputBlur = (event) => {
-    if (event.target.id === 'email')
-      setCredentials((prev) => {
-        return { ...prev, isEmailTouched: true };
-      });
-
-    if (event.target.id === 'password')
-      setCredentials((prev) => {
-        return { ...prev, isPasswordTouched: true };
-      });
-  };
-
-  const onInputChange = (event) => {
-    setCredentials((prev) => {
-      return event.target.id === 'email'
-        ? { ...prev, email: event.target.value }
-        : event.target.id === 'password'
-        ? { ...prev, password: event.target.value }
-        : { ...prev, remember: event.target.checked };
-    });
+  const rememberHandler = (event) => {
+    console.log(event.target);
+    setRemember(event.target.checked);
   };
 
   return (
@@ -63,17 +58,15 @@ function LoginForm(props) {
             Username*
           </label>
           <TextField
-            error={credentials.isEmailTouched && !isValidEmail}
+            error={emailIsTouched && !emailIsValid}
             id='email'
             variant='outlined'
-            value={credentials.email}
-            onChange={onInputChange}
-            onBlur={onInputBlur}
+            value={emailValue}
+            onChange={onInputChangeEmail}
+            onBlur={onInputBlurEmail}
             type='email'
             helperText={
-              credentials.isEmailTouched && !isValidEmail
-                ? 'Invalid Email'
-                : null
+              emailIsTouched && !emailIsValid ? 'Invalid Email' : null
             }
           />
         </div>
@@ -82,15 +75,15 @@ function LoginForm(props) {
             Password*
           </label>
           <TextField
-            error={credentials.isPasswordTouched && !isValidPassword}
+            error={passwordIsTouched && !passwordIsValid}
             id='password'
             type='password'
             variant='outlined'
-            value={credentials.password}
-            onChange={onInputChange}
-            onBlur={onInputBlur}
+            value={passwordValue}
+            onChange={onInputChangePassword}
+            onBlur={onInputBlurPassword}
             helperText={
-              credentials.isPasswordTouched && !isValidPassword
+              passwordIsTouched && !passwordIsValid
                 ? 'Requires 6 characters above!'
                 : null
             }
@@ -102,8 +95,8 @@ function LoginForm(props) {
             control={
               <Checkbox
                 id='remember'
-                checked={credentials.remember}
-                onChange={onInputChange}
+                checked={remember}
+                onChange={rememberHandler}
               />
             }
             label='Remember me'
