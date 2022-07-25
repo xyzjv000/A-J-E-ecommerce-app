@@ -1,11 +1,11 @@
-
 .container {
-    width: 350px;
+    width: 500px;
     position: absolute;
     right: 0;
     top: 50%;
     transform: translate(0%, -50%);
 }
+
 .heading {
     text-align: center;
     margin-bottom: 10px;
@@ -32,33 +32,29 @@
 
 .inputs {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-.inputs .labels {
-    font-size: 14px;
-    color: #505050;
+.wd100 {
+    width: 100%;
 }
-
-.options label span,
-.inputs input, .options button , 
-.submitBtn, .signUpBtn {
-    font-family: 'Poppins', 'Montserrat', sans-serif;
+.wd70 {
+    width: 70%;
 }
 
 .options {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    width: 90%;
+    align-self: center;
 }
 
-.options label span {
-    font-size: 14px;
-    padding-right: 2px;
-    color: #542020;
+.inputs div label {
+    font-size: 13px;
+    color: #505050;
 }
 
-.options button, .signUpBtn {
+.signUpBtn {
     color: #542020;
     font-size: 14px;
     padding: 0;
@@ -75,8 +71,7 @@
 }
 
 .submitBtn {
-    display: flex;
-    gap: 10px;
+    width: 80%;
     text-transform: capitalize !important;
     box-shadow: none !important;
     background-color: #904B4B !important;
@@ -84,10 +79,25 @@
     padding: 10px !important;
     font-weight: 400 !important;
     font-size: 16px !important;
+    align-self: center;
+    display: flex;
+    gap: 10px;
 }
 
 .signUpBtn a{
     font-size: 16px;
+    color: #542020;
+    text-decoration: none;
+}
+
+.signIn {
+    width: 50%;
+    align-self: center;
+    text-align: center;
+}
+
+.signIn a {
+    font-weight: 500;
     color: #542020;
     text-decoration: none;
 }

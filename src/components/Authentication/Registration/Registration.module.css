@@ -1,0 +1,19 @@
+.right, .left {
+    width: 50vw;
+    max-width: 50vw;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+.right {
+    position: absolute;
+    right: 0;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../../../../public/login-canvas.svg');
+    background-repeat: no-repeat;
+}
+
+.left {
+    position: relative;
+}

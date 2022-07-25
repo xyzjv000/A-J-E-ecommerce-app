@@ -6,6 +6,8 @@
 }
 
 .right {
+    position: absolute;
+    right: 0;
     background-size: cover;
     background-position: center;
     background-image: url('../../../../public/login-canvas.svg');

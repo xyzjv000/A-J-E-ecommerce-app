@@ -1,35 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import { createSlice } from "@reduxjs/toolkit"
 
-const AuthContext = React.createContext({
-    isLoggedIn: false,
-    onLogout: () => { },
-    onLogin: (email, password) => { }
-})
+const data = localStorage.getItem('isLoggedIn')
 
-const AuthContextProvider = (props) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const loginInfo = localStorage.getItem("isLoggedIn");
-        if (loginInfo === '1') {
-            setIsLoggedIn(true);
-            console.log("test")
-        }
-    }, [])
-
-    const loginHandler = (email, password) => {
-        localStorage.setItem("isLoggedIn", '1')
-        setIsLoggedIn(true);
-    };
-
-    const logoutHandler = () => {
-        localStorage.clear()
-        setIsLoggedIn(false);
-    };
-    return (
-        <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler, onLogin: loginHandler }} >{props.children}</AuthContext.Provider>
-    )
+const initialState = {
+    isLoggedIn: data
 }
 
+const authReducer = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        login(state) {
+            localStorage.setItem('isLoggedIn', true)
+            state.isLoggedIn = true
+        },
+        logout(state) {
+            state.isLoggedIn = false;
+            localStorage.clear()
+        },
+    }
+})
 
-export default AuthContextProvider
+export default authReducer;

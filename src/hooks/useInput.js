@@ -7,8 +7,7 @@ function useInput(validateValue) {
     })
 
     const isValid = validateValue(validation.value);
-    const hasError = !isValid && validation.touched;
-
+    const hasError = !isValid;
     const onInputBlurHandler = (event) => {
         setValidation(prevState => {
             return { ...prevState, touched: true }
@@ -21,13 +20,21 @@ function useInput(validateValue) {
         })
     };
 
+    const resetInput = () => {
+        setValidation({
+            touched: false,
+            value: '',
+        })
+    }
+
     return {
         value: validation.value,
         touched: validation.touched,
         hasError,
         isValid,
         onInputChangeHandler,
-        onInputBlurHandler
+        onInputBlurHandler,
+        resetInput
 
     }
 }

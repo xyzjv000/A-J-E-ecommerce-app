@@ -1,5 +1,12 @@
-import { TextField, Checkbox, FormControlLabel, Button } from '@mui/material';
+import {
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Button,
+  CircularProgress,
+} from '@mui/material';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useInput from '../../../../hooks/useInput';
 import classes from './LoginForm.module.css';
 
@@ -55,7 +62,7 @@ function LoginForm(props) {
       <form className={classes.form} onSubmit={formHandler}>
         <div className={classes.inputs}>
           <label htmlFor='email' className={classes.labels}>
-            Username*
+            Email*
           </label>
           <TextField
             error={emailIsTouched && !emailIsValid}
@@ -106,9 +113,19 @@ function LoginForm(props) {
           <button>Forgot Password</button>
         </div>
         <Button className={classes.submitBtn} type='submit' variant='contained'>
+          {props.isloading && (
+            <CircularProgress
+              sx={{ color: 'grey.500' }}
+              size={'1.5rem'}
+              spacing={2}
+            />
+          )}
           Sign in
         </Button>
-        <button className={classes.signUpBtn}>Sign up</button>
+
+        <button className={classes.signUpBtn} type='button'>
+          <Link to='/registration'>Sign up</Link>
+        </button>
       </form>
     </div>
   );
